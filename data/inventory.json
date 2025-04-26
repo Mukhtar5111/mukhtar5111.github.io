@@ -1,0 +1,121 @@
+[
+    {
+        "id": 1,
+        "name": "Farm Tractor 4WD",
+        "code": "DIN-TR-450",
+        "category": "machine",
+        "locations": {
+        "mainWarehouse": 5,
+        "branchA": 2,
+        "branchB": 1
+    },
+        "stockIn": 8,
+        "stockOut": 3,
+        "stock": 5,
+        "foreignPrice": 12500.00,
+        "description": "A powerful 4WD tractor suitable for all farming operations. Features include 45HP engine, power steering, and dual clutch system. Comes with 1-year warranty.",
+        "image": "images/tractor.jpg"
+    },
+    {
+        "id": 2,
+        "name": "Harvester Combine",
+        "code": "DIN-HC-300",
+        "category": "machine",
+        "locations": {
+        "mainWarehouse": 5,
+        "branchA": 2,
+        "branchB": 1
+    },
+        "stockIn": 5,
+        "stockOut": 3,
+        "stock": 2,
+        "foreignPrice": 32000.00,
+        "description": "Advanced combine harvester with 3.0m cutting width, grain tank capacity of 4000L, and 120HP engine. Ideal for large-scale farming operations.",
+        "image": "images/harvester.jpg"
+    },
+    {
+        "id": 3,
+        "name": "Tractor Plough",
+        "code": "DIN-TP-120",
+        "category": "spare-part",
+        "locations": {
+        "mainWarehouse": 5,
+        "branchA": 2,
+        "branchB": 1
+    },
+        "stockIn": 20,
+        "stockOut": 5,
+        "stock": 15,
+        "foreignPrice": 450.00,
+        "description": "Heavy-duty reversible plough with 3 bottoms. Suitable for all soil types. Made from high-grade steel for durability.",
+        "image": "images/plough.jpg"
+    },
+    {
+        "id": 4,
+        "name": "Disc Harrow",
+        "code": "DIN-DH-200",
+        "category": "machine",
+        "locations": {
+        "mainWarehouse": 5,
+        "branchA": 2,
+        "branchB": 1
+    },
+        "stockIn": 10,
+        "stockOut": 4,
+        "stock": 6,
+        "foreignPrice": 1800.00,
+        "description": "20-disc harrow for seedbed preparation. Adjustable disc angle and heavy-duty frame.",
+        "image": "images/harrow.jpg"
+    },
+    {
+        "id": 5,
+        "name": "Farm Tractor 4WD",
+        "code": "DIN-TR-450",
+        "category": "machine",
+        "locations": {
+        "mainWarehouse": 5,
+        "branchA": 2,
+        "branchB": 1
+    },
+        "stockIn": 8,
+        "stockOut": 3,
+        "stock": 5,
+        "foreignPrice": 12500.00,
+        "description": "A powerful 4WD tractor suitable for all farming operations. Features include 45HP engine, power steering, and dual clutch system. Comes with 1-year warranty.",
+        "image": "images/tractor.jpg"
+    },
+    {
+        "id": 6,
+        "name": "Farm Tractor 4WD",
+        "code": "DIN-TR-450",
+        "category": "machine",
+        "locations": {
+        "mainWarehouse": 5,
+        "branchA": 2,
+        "branchB": 1
+    },
+        "stockIn": 8,
+        "stockOut": 3,
+        "stock": 5,
+        "foreignPrice": 12500.00,
+        "description": "A powerful 4WD tractor suitable for all farming operations. Features include 45HP engine, power steering, and dual clutch system. Comes with 1-year warranty.",
+        "image": "images/tractor.jpg"
+    },
+    {
+        "id": 7,
+        "name": "Tractor Trailer",
+        "code": "DIN-TL-500",
+        "category": "accessory",
+        "locations": {
+        "mainWarehouse": 5,
+        "branchA": 2,
+        "branchB": 1
+    },
+        "stockIn": 7,
+        "stockOut": 2,
+        "stock": 5,
+        "foreignPrice": 3500.00,
+        "description": "5-ton capacity tractor trailer with hydraulic tipping. Heavy-duty construction for farm use.",
+        "image": "images/trailer.jpg"
+    }
+]

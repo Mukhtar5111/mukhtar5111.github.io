@@ -1,0 +1,53 @@
+/* print.css - Print-specific styles */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    
+    .modal, .modal * {
+        visibility: visible;
+    }
+    
+    .modal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: auto;
+        background-color: white;
+    }
+    
+    .modal-content {
+        box-shadow: none;
+        border: none;
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 1rem;
+    }
+    
+    .close, .modal-actions {
+        display: none;
+    }
+    
+    .modal-body {
+        display: block;
+    }
+    
+    .product-images {
+        float: left;
+        width: 200px;
+        margin-right: 1rem;
+    }
+    
+    .product-details {
+        margin-left: 220px;
+    }
+    
+    @page {
+        size: auto;
+        margin: 10mm;
+    }
+}
