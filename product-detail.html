@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details | Dinar Agricultural</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="gradient-header">
+        <!-- Same header as index.html -->
+    </header>
+
+    <main class="product-detail-main">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> &gt; 
+                <a href="products.html">Products</a> &gt; 
+                <span id="product-category-breadcrumb">Category</span> &gt; 
+                <span id="product-name-breadcrumb">Product Name</span>
+            </div>
+
+            <div class="product-detail-container" id="productDetailContainer">
+                <!-- Content will be dynamically inserted by JavaScript -->
+            </div>
+
+            <div class="related-products">
+                <h2>Related Products</h2>
+                <div class="related-grid">
+                    <div class="related-card">
+                        <img src="images/rice-polisher.jpg" alt="Rice Polisher">
+                        <h3>Rice Polishing Machine</h3>
+                        <a href="product-detail.html?product=rice-polisher" class="related-link">View Details</a>
+                    </div>
+                    <div class="related-card">
+                        <img src="images/grain-dryer.jpg" alt="Grain Dryer">
+                        <h3>Grain Dryer</h3>
+                        <a href="product-detail.html?product=grain-dryer" class="related-link">View Details</a>
+                    </div>
+                    <div class="related-card">
+                        <img src="images/mill-motor.jpg" alt="Mill Motor">
+                        <h3>Industrial Mill Motor</h3>
+                        <a href="product-detail.html?product=mill-motor" class="related-link">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <!-- Same footer as index.html -->
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <!-- Same as index.html -->
+
+    <script src="js/main.js"></script>
+    <script>
+        // Product detail functionality (same as in index.html)
+        document.addEventListener('DOMContentLoaded', function() {
+            if(window.location.pathname.includes('product-detail.html')) {
+                const urlParams = new URLSearchParams(window.location.search);
+                const productId = urlParams.get('product');
+                
+                const products = {
+                    'industrial-rice-mill': {
+                        name: 'Industrial Rice Milling Machine',
+                        category: 'Processing Machines',
+                        description: 'Our industrial rice milling machine offers high-capacity processing with 98% milling recovery rate. Designed for commercial rice processing operations with capacity of 2-3 tons per hour. Features advanced whitening technology and low breakage rate for premium quality rice output.',
+                        specs: [
+                            'Capacity: 2-3 tons/hour',
+                            'Power: 15-18.5 kW',
+                            'Milling recovery: ≥98%',
+                            'Breakage rate: ≤3%',
+                            'Dimensions: 2500×1200×1800mm',
+                            'Weight: 1500kg',
+                            'Voltage: 380V/50Hz (customizable)',
+                            'Material: Stainless steel contact parts'
+                        ],
+                        features: [
+                            'Automatic paddy separator',
+                            'Multi-stage whitening system',
+                            'Dust collection system',
+                            'Low noise operation',
+                            'Easy maintenance design'
+                        ],
+                        images: [
+                            'images/rice-mill-1.jpg',
+                            'images/rice-mill-2.jpg',
+                            'images/rice-mill-3.jpg'
+                        ],
+                        price: 'Contact for pricing',
+                        whatsappText: 'I%27m%20interested%20in%20the%20Industrial%20Rice%20Milling%20Machine%20on%20your%20website.%20Please%20send%20me%20more%20information%20and%20pricing%20details.'
+                    },
+                    // Add other products similarly
+                };
+                
+                if(productId && products[productId]) {
+                    const product = products[productId];
+                    document.title = product.name + ' | Dinar Agricultural';
+                    document.getElementById('product-name-breadcrumb').textContent = product.name;
+                    document.getElementById('product-category-breadcrumb').textContent = product.category;
+                    
+                    const container = document.getElementById('productDetailContainer');
+                    container.innerHTML = `
+                        <div class="product-images">
+                            <div class="main-image">
+                                <img src="${product.images[0]}" alt="${product.name}">
+                            </div>
+                            <div class="thumbnail-gallery">
+                                ${product.images.map(img => `
+                                    <img src="${img}" alt="${product.name}" class="thumbnail">
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h1>${product.name}</h1>
+                            <p class="product-category">${product.category}</p>
+                            <p class="product-price">${product.price}</p>
+                            
+                            <div class="product-description">
+                                <h3>Description</h3>
+                                <p>${product.description}</p>
+                            </div>
+                            
+                            <div class="product-specs">
+                                <h3>Specifications</h3>
+                                <ul>
+                                    ${product.specs.map(spec => `<li>${spec}</li>`).join('')}
+                                </ul>
+                            </div>
+                            
+                            <div class="product-features">
+                                <h3>Key Features</h3>
+                                <ul>
+                                    ${product.features.map(feature => `<li><i class="fas fa-check"></i> ${feature}</li>`).join('')}
+                                </ul>
+                            </div>
+                            
+                            <div class="product-actions">
+                                <a href="https://wa.me/2348000000001?text=${product.whatsappText}" 
+                                   class="whatsapp-button" target="_blank">
+                                    <i class="fab fa-whatsapp"></i> Get Quote on WhatsApp
+                                </a>
+                                <a href="contact.html" class="contact-button">
+                                    <i class="fas fa-envelope"></i> Contact Us
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Thumbnail click functionality
+                    const thumbnails = document.querySelectorAll('.thumbnail');
+                    const mainImage = document.querySelector('.main-image img');
+                    
+                    thumbnails.forEach(thumb => {
+                        thumb.addEventListener('click', function() {
+                            mainImage.src = this.src;
+                            mainImage.alt = this.alt;
+                        });
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dinar Agricultural - Inventory</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/print.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="images/logo.png" alt="Dinar Agricultural Machines">
+                <h1>Dinar Agricultural <span>Inventory System</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="inventory.html" class="active">Inventory</a></li>
+                    <li><a href="stock-movement.html">Stock Movement</a></li>
+                    <li><a href="index.html">Marketing</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Summary Cards -->
+        <section class="summary-cards">
+            <div class="card total-items">
+                <div class="card-icon">
+                    <i class="fas fa-boxes"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Total Items</h3>
+                    <p id="totalItems">0</p>
+                </div>
+            </div>
+            
+            <div class="card total-stock">
+                <div class="card-icon">
+                    <i class="fas fa-warehouse"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Total Stock</h3>
+                    <p id="totalStock">0</p>
+                </div>
+            </div>
+            
+            <div class="card total-value">
+                <div class="card-icon">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Total Value</h3>
+                    <p id="totalValue">₦0.00</p>
+                </div>
+            </div>
+            
+            <div class="card low-stock">
+                <div class="card-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Low Stock</h3>
+                    <p id="lowStockItems">0</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="inventory-controls">
+            <div class="controls-row">
+                <div class="search-filter">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Search products...">
+                    </div>
+                    <select id="categoryFilter">
+                        <option value="all">All Categories</option>
+                        <option value="machine">Machines</option>
+                        <option value="spare-part">Spare Parts</option>
+                        <option value="accessory">Accessories</option>
+                    </select>
+                    <button id="resetFilters" class="btn secondary">
+                        <i class="fas fa-undo"></i> Reset
+                    </button>
+                </div>
+                
+                <div class="actions">
+                    <button id="printInvoiceBtn" class="btn primary">
+                        <i class="fas fa-file-invoice"></i> Create Invoice
+                    </button>
+                    <button id="printStockBtn" class="btn primary">
+                        <i class="fas fa-print"></i> Print Stock
+                    </button>
+                </div>
+            </div>
+            
+            <div class="controls-row">
+                <div class="currency-selector">
+                    <label for="baseCurrency">Base Currency:</label>
+                    <select id="baseCurrency">
+                        <option value="USD">USD ($)</option>
+                        <option value="EUR">EUR (€)</option>
+                        <option value="GBP">GBP (£)</option>
+                        <option value="NGN" selected>NGN (₦)</option>
+                    </select>
+                </div>
+                
+                <div class="price-calculator">
+                    <div class="calculator-input">
+                        <label for="exchangeRate">Exchange Rate (₦/$):</label>
+                        <input type="number" id="exchangeRate" step="0.01" value="1500.00">
+                    </div>
+                    <div class="calculator-input">
+                        <label for="freightMarkup">Freight Markup (%):</label>
+                        <input type="number" id="freightMarkup" step="0.1" value="15.0">
+                    </div>
+                    <div class="calculator-input">
+                        <label for="wholesaleMarkup">Wholesale Markup (%):</label>
+                        <input type="number" id="wholesaleMarkup" step="0.1" value="25.0">
+                    </div>
+                </div>
+                
+                <div class="pagination-controls">
+                    <label for="itemsPerPage">Items per page:</label>
+                    <select id="itemsPerPage">
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <section class="inventory-list">
+            <div class="table-responsive">
+                <table id="inventoryTable">
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Code</th>
+                            <th>Category</th>
+                            <th>Stock In</th>
+                            <th>Stock Out</th>
+                            <th>Balance</th>
+                            <th>Foreign Price</th>
+                            <th>Landing Cost</th>
+                            <th>Selling Price</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="pagination">
+                <button id="prevPage" class="btn secondary" disabled>
+                    <i class="fas fa-chevron-left"></i> Previous
+                </button>
+                <span id="pageInfo">Page 1 of 1</span>
+                <button id="nextPage" class="btn secondary" disabled>
+                    Next <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Product Detail Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-body">
+                <div class="product-images">
+                    <img id="modalProductImage" src="" alt="">
+                </div>
+                <div class="product-details">
+                    <h2 id="modalProductName"></h2>
+                    <p class="product-code" id="modalProductCode"></p>
+                    
+                    <div class="stock-movement">
+                        <div class="movement-card in">
+                            <h3>Stock In</h3>
+                            <p id="modalStockIn">0</p>
+                        </div>
+                        <div class="movement-card out">
+                            <h3>Stock Out</h3>
+                            <p id="modalStockOut">0</p>
+                        </div>
+                        <div class="movement-card balance">
+                            <h3>Balance</h3>
+                            <p id="modalStockBalance">0</p>
+                        </div>
+                    </div>
+                    
+                    <div class="price-details">
+                        <h3>Pricing Information</h3>
+                        <div class="price-row">
+                            <span>Foreign Price:</span>
+                            <span id="modalForeignPrice"></span>
+                        </div>
+                        <div class="price-row">
+                            <span>Landing Cost:</span>
+                            <span id="modalLandingCost"></span>
+                        </div>
+                        <div class="price-row">
+                            <span>Selling Price:</span>
+                            <span id="modalSellingPrice"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="product-description">
+                        <h3>Description</h3>
+                        <p id="modalDescription"></p>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button class="btn primary print-btn" id="printSingleBtn">
+                            <i class="fas fa-print"></i> Print
+                        </button>
+                        <button class="btn secondary" id="closeModalBtn">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Invoice Modal -->
+    <div id="invoiceModal" class="modal">
+        <div class="modal-content large">
+            <span class="close">&times;</span>
+            <div class="modal-body">
+                <h2>Create Invoice</h2>
+                
+                <div class="invoice-controls">
+                    <div class="customer-info">
+                        <h3>Customer Information</h3>
+                        <div class="form-group">
+                            <label for="customerName">Name:</label>
+                            <input type="text" id="customerName" placeholder="Customer Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="customerPhone">Phone:</label>
+                            <input type="text" id="customerPhone" placeholder="Phone Number">
+                        </div>
+                        <div class="form-group">
+                            <label for="customerAddress">Address:</label>
+                            <textarea id="customerAddress" placeholder="Customer Address"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="invoice-details">
+                        <h3>Invoice Details</h3>
+                        <div class="form-group">
+                            <label for="invoiceNumber">Invoice #:</label>
+                            <input type="text" id="invoiceNumber" value="INV-0001">
+                        </div>
+                        <div class="form-group">
+                            <label for="invoiceDate">Date:</label>
+                            <input type="date" id="invoiceDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="paymentMethod">Payment Method:</label>
+                            <select id="paymentMethod">
+                                <option value="cash">Cash</option>
+                                <option value="transfer">Bank Transfer</option>
+                                <option value="card">Card</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="invoice-items">
+                    <h3>Items</h3>
+                    <table id="invoiceItemsTable">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Description</th>
+                                <th>Qty</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                    
+                    <button id="addItemBtn" class="btn secondary">
+                        <i class="fas fa-plus"></i> Add Item
+                    </button>
+                </div>
+                
+                <div class="invoice-totals">
+                    <div class="totals-grid">
+                        <div class="totals-row">
+                            <span>Subtotal:</span>
+                            <span id="invoiceSubtotal">₦0.00</span>
+                        </div>
+                        <div class="totals-row">
+                            <span>Tax (7.5%):</span>
+                            <span id="invoiceTax">₦0.00</span>
+                        </div>
+                        <div class="totals-row grand-total">
+                            <span>Total:</span>
+                            <span id="invoiceTotal">₦0.00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="invoice-actions">
+                    <button id="printInvoiceFinalBtn" class="btn primary">
+                        <i class="fas fa-print"></i> Print Invoice
+                    </button>
+                    <button id="clearInvoiceBtn" class="btn secondary">
+                        <i class="fas fa-trash"></i> Clear
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Item Modal -->
+    <div id="addItemModal" class="modal">
+        <div class="modal-content medium">
+            <span class="close">&times;</span>
+            <div class="modal-body">
+                <h2>Add Item to Invoice</h2>
+                
+                <div class="search-filter">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="itemSearchInput" placeholder="Search products...">
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table id="addItemTable">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Code</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="modal-actions">
+                    <button id="cancelAddItemBtn" class="btn secondary">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

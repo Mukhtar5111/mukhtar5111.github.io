@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Products | Dinar Agricultural</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="gradient-header">
+        <div class="container">
+            <div class="logo">
+                <h1>Dinar Agricultural</h1>
+                <p>Machines & Spare Parts</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html" class="active">Products</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="spare-parts.html">Spare Parts</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <main class="products-main">
+        <section class="page-header">
+            <div class="container">
+                <h1>Our Agricultural Products</h1>
+                <p>High-quality machinery and equipment for modern farming and processing</p>
+            </div>
+        </section>
+
+        <section class="product-categories">
+            <div class="container">
+                <div class="category-filter">
+                    <h3>Filter by Category:</h3>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-category="all">All Products</button>
+                        <button class="filter-btn" data-category="farm-machinery">Farm Machinery</button>
+                        <button class="filter-btn" data-category="processing">Processing Machines</button>
+                        <button class="filter-btn" data-category="spare-parts">Spare Parts</button>
+                    </div>
+                </div>
+
+                <div class="products-grid">
+                    <!-- Farm Machinery -->
+                    <div class="product-card" data-category="farm-machinery">
+                        <img src="images/tractor-medium.jpg" alt="Farm Tractor">
+                        <h3>Farm Tractor 4WD</h3>
+                        <p class="product-desc">45HP diesel tractor with 4-wheel drive for all farming operations</p>
+                        <a href="product-detail.html?product=farm-tractor" class="product-link">View Details</a>
+                    </div>
+
+                    <div class="product-card" data-category="farm-machinery">
+                        <img src="images/harvester-medium.jpg" alt="Combine Harvester">
+                        <h3>Combine Harvester</h3>
+                        <p class="product-desc">Self-propelled harvester with 5-ton/hour capacity</p>
+                        <a href="product-detail.html?product=combine-harvester" class="product-link">View Details</a>
+                    </div>
+
+                    <!-- Rice Milling Machines -->
+                    <div class="product-card" data-category="processing">
+                        <img src="images/rice-mill-medium.jpg" alt="Industrial Rice Mill">
+                        <h3>Industrial Rice Mill</h3>
+                        <p class="product-desc">2-3 ton/hour capacity with 98% milling recovery</p>
+                        <a href="product-detail.html?product=industrial-rice-mill" class="product-link">View Details</a>
+                    </div>
+
+                    <div class="product-card" data-category="processing">
+                        <img src="images/rice-huller.jpg" alt="Rice Huller Machine">
+                        <h3>Rice Huller Machine</h3>
+                        <p class="product-desc">500kg/hour capacity with automatic separation</p>
+                        <a href="product-detail.html?product=rice-huller" class="product-link">View Details</a>
+                    </div>
+
+                    <!-- Flour Milling Machines -->
+                    <div class="product-card" data-category="processing">
+                        <img src="images/flour-mill-medium.jpg" alt="Flour Milling Machine">
+                        <h3>Flour Milling Machine</h3>
+                        <p class="product-desc">50kg/hour capacity for wheat, maize, and grains</p>
+                        <a href="product-detail.html?product=flour-mill" class="product-link">View Details</a>
+                    </div>
+
+                    <div class="product-card" data-category="processing">
+                        <img src="images/grain-cleaner.jpg" alt="Grain Cleaner">
+                        <h3>Grain Cleaning Machine</h3>
+                        <p class="product-desc">Pre-milling cleaning with 3-ton/hour capacity</p>
+                        <a href="product-detail.html?product=grain-cleaner" class="product-link">View Details</a>
+                    </div>
+
+                    <!-- Spare Parts -->
+                    <div class="product-card" data-category="spare-parts">
+                        <img src="images/tractor-spares.jpg" alt="Tractor Spare Parts">
+                        <h3>Tractor Spare Parts Kit</h3>
+                        <p class="product-desc">Complete maintenance kit for popular models</p>
+                        <a href="product-detail.html?product=tractor-spares" class="product-link">View Details</a>
+                    </div>
+
+                    <div class="product-card" data-category="spare-parts">
+                        <img src="images/mill-spares.jpg" alt="Mill Spare Parts">
+                        <h3>Mill Spare Parts Set</h3>
+                        <p class="product-desc">Essential replacement parts for rice/flour mills</p>
+                        <a href="product-detail.html?product=mill-spares" class="product-link">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="product-cta">
+            <div class="container">
+                <h2>Can't Find What You Need?</h2>
+                <p>We source specialized agricultural equipment on request</p>
+                <a href="contact.html" class="cta-button">Contact Our Team</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <!-- Same footer as index.html -->
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <div class="floating-whatsapp">
+        <a href="https://wa.me/2348000000001?text=I'm%20interested%20in%20your%20products" target="_blank">
+            <i class="fab fa-whatsapp"></i> Chat Now
+        </a>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Product filtering functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const productCards = document.querySelectorAll('.product-card');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    const category = this.dataset.category;
+                    
+                    // Filter products
+                    productCards.forEach(card => {
+                        if (category === 'all' || card.dataset.category === category) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
