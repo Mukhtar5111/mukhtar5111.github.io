@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rice Milling Screens Catalog</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 20px;
+        }
+        .category-header {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .category-header:hover {
+            background-color: #e9ecef;
+        }
+        .screen-row:hover {
+            background-color: #f8f9fa;
+        }
+        .table-responsive {
+            overflow-x: auto;
+        }
+        .filter-box {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .badge-material {
+            background-color: #0d6efd;
+        }
+        .badge-moq {
+            background-color: #6c757d;
+        }
+        .image-gallery {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding: 10px 0;
+            scrollbar-width: thin;
+        }
+        .image-gallery img {
+            height: 200px;
+            object-fit: contain;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+        }
+        .modal-details {
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        .technical-drawing {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #dee2e6;
+        }
+        @media (max-width: 768px) {
+            .image-gallery {
+                flex-direction: column;
+                overflow-x: hidden;
+            }
+            .image-gallery img {
+                width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">RiceMillPro</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="machines.html">Machines</a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="screens.html">Screens</a>
+                        </li>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="parts.html">Spare Parts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="cross-reference.html">Cross-Reference</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container py-4">
+        <h1 class="text-center mb-4">Rice Milling Screens Catalog</h1>
+        
+        <div class="filter-box mb-4">
+            <div class="row">
+                <div class="col-md-4 mb-2">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search model or dimensions...">
+                </div>
+                <div class="col-md-2 mb-2">
+                    <select id="materialFilter" class="form-select">
+                        <option value="">All Materials</option>
+                        <option value="Stainless Steel">Stainless Steel</option>
+                        <option value="Hardened Steel">Hardened Steel</option>
+                    </select>
+                </div>
+                <div class="col-md-2 mb-2">
+                    <select id="thicknessFilter" class="form-select">
+                        <option value="">All Thicknesses</option>
+                        <option value="1.0">1.0 mm</option>
+                        <option value="1.5">1.5 mm</option>
+                        <option value="1.8">1.8 mm</option>
+                    </select>
+                </div>
+                <div class="col-md-2 mb-2">
+                    <select id="holeSizeFilter" class="form-select">
+                        <option value="">All Hole Sizes</option>
+                        <option value="1.0">1.0 mm</option>
+                        <option value="1.1">1.1 mm</option>
+                        <option value="1.2">1.2 mm</option>
+                    </select>
+                </div>
+                <div class="col-md-2 mb-2">
+                    <select id="moqFilter" class="form-select">
+                        <option value="">All MOQ</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover" id="screensTable">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Model</th>
+                        <th>Dimension</th>
+                        <th>Material</th>
+                        <th>Thickness</th>
+                        <th>Hole Size</th>
+                        <th>MOQ</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody id="screensTableBody">
+                    <!-- Screens will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-4 text-center">
+            <button class="btn btn-primary me-2" id="exportExcel">
+                <i class="bi bi-file-earmark-excel"></i> Export to Excel
+            </button>
+            <button class="btn btn-danger" id="exportPDF">
+                <i class="bi bi-file-earmark-pdf"></i> Export to PDF
+            </button>
+        </div>
+    </div>
+
+    <!-- Screen Details Modal -->
+    <div class="modal fade" id="screenModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Screen Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body modal-details">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Product Images</h5>
+                            <div class="image-gallery mb-4" id="productImages">
+                                <!-- Images will be loaded here -->
+                            </div>
+                            
+                            <h5>Technical Drawing</h5>
+                            <div class="image-gallery" id="drawingImages">
+                                <!-- Drawing will be loaded here -->
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Specifications</h5>
+                            <table class="table table-bordered" id="specsTable">
+                                <!-- Specifications will be loaded here -->
+                            </table>
+                            
+                            <h5 class="mt-4">Description</h5>
+                            <div class="card">
+                                <div class="card-body" id="productDescription">
+                                    <!-- Description will be loaded here -->
+                                </div>
+                            </div>
+                            
+                            <div class="mt-3">
+                                <button class="btn btn-primary w-100" id="inquiryBtn">
+                                    <i class="bi bi-envelope"></i> Request Inquiry
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    
+    <script>
+        // Complete screen data with image references
+        const screensData = [
+            // General Screens
+            { 
+                id: "gs-001",
+                category: "General Screens", 
+                model: "General Screens", 
+                dimension: "580×340 mm", 
+                material: "Stainless Steel", 
+                thickness: "N/A", 
+                holeSize: "N/A", 
+                moq: 10,
+                images: [
+                    "general-screen-1.jpg",
+                    "general-screen-2.jpg"
+                ],
+                drawings: [
+                    "general-screen-dwg.jpg"
+                ],
+                description: "Standard perforated screen for general rice milling applications. Made from high-quality stainless steel for durability and corrosion resistance. Suitable for various rice processing stages."
+            },
+            { 
+                id: "gs-002",
+                category: "General Screens", 
+                model: "General Screens", 
+                dimension: "465×350 mm", 
+                material: "Stainless Steel", 
+                thickness: "N/A", 
+                holeSize: "N/A", 
+                moq: 10,
+                images: [
+                    "general-screen-3.jpg"
+                ],
+                drawings: [
+                    "general-screen-dwg.jpg"
+                ],
+                description: "Versatile screen for rice cleaning and sorting applications. Features precise perforations for optimal grain separation."
+            },
+            // Add all other General Screens entries...
+
+            // Half Round Screen (Rice Whitener)
+            { 
+                id: "hr-001",
+                category: "Half Round Screen (Rice Whitener)", 
+                model: "Half Round Screen (Rice Whitener)", 
+                dimension: "483×367 mm", 
+                material: "Hardened Steel", 
+                thickness: "1.5 mm", 
+                holeSize: "N/A", 
+                moq: 5,
+                images: [
+                    "half-round-1.jpg",
+                    "half-round-2.jpg"
+                ],
+                drawings: [
+                    "half-round-dwg.jpg"
+                ],
+                description: "Specialized half-round screen designed specifically for rice whitening applications. Constructed from hardened steel for extended wear resistance in high-abrasion environments."
+            },
+            // Add all other Half Round Screen entries...
+
+            // MINML25
+            { 
+                id: "minml-001",
+                category: "MINML25", 
+                model: "MINML25", 
+                dimension: "360×285 mm", 
+                material: "Hardened Steel", 
+                thickness: "1.5 mm", 
+                holeSize: "N/A", 
+                moq: 5,
+                images: [
+                    "minml25-1.jpg",
+                    "minml25-2.jpg"
+                ],
+                drawings: [
+                    "minml25-dwg.jpg"
+                ],
+                description: "High-performance MINML25 screen for specialized rice milling applications. Features unique hole pattern for optimal whitening performance."
+            },
+            // Continue with all other categories...
+        ];
+
+        // Initialize the table when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            renderScreensTable(screensData);
+            
+            // Set up event listeners for filters
+            document.getElementById('searchInput').addEventListener('input', filterScreens);
+            document.getElementById('materialFilter').addEventListener('change', filterScreens);
+            document.getElementById('thicknessFilter').addEventListener('change', filterScreens);
+            document.getElementById('holeSizeFilter').addEventListener('change', filterScreens);
+            document.getElementById('moqFilter').addEventListener('change', filterScreens);
+            
+            // Export buttons
+            document.getElementById('exportExcel').addEventListener('click', exportToExcel);
+            document.getElementById('exportPDF').addEventListener('click', exportToPDF);
+            
+            // Inquiry button in modal
+            document.getElementById('inquiryBtn').addEventListener('click', function() {
+                const productId = this.getAttribute('data-product-id');
+                alert(`Inquiry requested for product ID: ${productId}`);
+            });
+        });
+
+        // Render the screens table
+        function renderScreensTable(screens) {
+            const tableBody = document.getElementById('screensTableBody');
+            tableBody.innerHTML = '';
+            
+            let currentCategory = null;
+            let rowCount = 0;
+            
+            screens.forEach((screen, index) => {
+                // Add category header row if category changed
+                if (screen.category !== currentCategory) {
+                    currentCategory = screen.category;
+                    rowCount = 0;
+                    
+                    const categoryRow = document.createElement('tr');
+                    categoryRow.className = 'category-header';
+                    categoryRow.setAttribute('data-category', currentCategory);
+                    categoryRow.innerHTML = `
+                        <td colspan="8">
+                            <i class="bi bi-folder-fill me-2"></i>
+                            <strong>${currentCategory}</strong>
+                        </td>
+                    `;
+                    tableBody.appendChild(categoryRow);
+                }
+                
+                // Add screen row
+                rowCount++;
+                const screenRow = document.createElement('tr');
+                screenRow.className = 'screen-row';
+                screenRow.setAttribute('data-category', currentCategory);
+                screenRow.innerHTML = `
+                    <td>${rowCount}</td>
+                    <td>${screen.model}</td>
+                    <td>${screen.dimension}</td>
+                    <td><span class="badge badge-material">${screen.material}</span></td>
+                    <td>${screen.thickness}</td>
+                    <td>${screen.holeSize}</td>
+                    <td><span class="badge badge-moq">${screen.moq}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary view-details" 
+                                data-screen-id="${screen.id}">
+                            <i class="bi bi-eye"></i> View
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(screenRow);
+            });
+            
+            // Add click event for details buttons
+            document.querySelectorAll('.view-details').forEach(button => {
+                button.addEventListener('click', function() {
+                    const screenId = this.getAttribute('data-screen-id');
+                    const screen = screensData.find(s => s.id === screenId);
+                    showScreenDetails(screen);
+                });
+            });
+            
+            // Add click event for category headers
+            document.querySelectorAll('.category-header').forEach(header => {
+                header.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    toggleCategory(category);
+                });
+            });
+        }
+
+        // Filter screens based on search and filters
+        function filterScreens() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const materialFilter = document.getElementById('materialFilter').value;
+            const thicknessFilter = document.getElementById('thicknessFilter').value;
+            const holeSizeFilter = document.getElementById('holeSizeFilter').value;
+            const moqFilter = document.getElementById('moqFilter').value;
+            
+            const filtered = screensData.filter(screen => {
+                const matchesSearch = screen.model.toLowerCase().includes(searchTerm) || 
+                                      screen.dimension.toLowerCase().includes(searchTerm) ||
+                                      screen.category.toLowerCase().includes(searchTerm);
+                const matchesMaterial = !materialFilter || screen.material === materialFilter;
+                const matchesThickness = !thicknessFilter || screen.thickness.includes(thicknessFilter);
+                const matchesHoleSize = !holeSizeFilter || screen.holeSize.includes(holeSizeFilter);
+                const matchesMoq = !moqFilter || screen.moq.toString() === moqFilter;
+                
+                return matchesSearch && matchesMaterial && matchesThickness && matchesHoleSize && matchesMoq;
+            });
+            
+            renderScreensTable(filtered);
+        }
+
+        // Toggle category visibility
+        function toggleCategory(category) {
+            const rows = document.querySelectorAll(`.screen-row[data-category="${category}"]`);
+            const isHidden = rows[0] && rows[0].style.display === 'none';
+            
+            rows.forEach(row => {
+                row.style.display = isHidden ? '' : 'none';
+            });
+        }
+
+        // Show screen details in modal
+        function showScreenDetails(screen) {
+            // Set modal title
+            document.getElementById('modalTitle').textContent = `${screen.category} - ${screen.dimension}`;
+            
+            // Load product images
+            const productImagesContainer = document.getElementById('productImages');
+            productImagesContainer.innerHTML = '';
+            if (screen.images && screen.images.length > 0) {
+                screen.images.forEach(image => {
+                    const img = document.createElement('img');
+                    img.src = `images/products/${image}`;
+                    img.alt = `${screen.model} - Product Image`;
+                    img.className = 'img-fluid';
+                    productImagesContainer.appendChild(img);
+                });
+            } else {
+                productImagesContainer.innerHTML = '<p class="text-muted">No product images available</p>';
+            }
+            
+            // Load drawing images
+            const drawingImagesContainer = document.getElementById('drawingImages');
+            drawingImagesContainer.innerHTML = '';
+            if (screen.drawings && screen.drawings.length > 0) {
+                screen.drawings.forEach(drawing => {
+                    const img = document.createElement('img');
+                    img.src = `images/drawings/${drawing}`;
+                    img.alt = `${screen.model} - Technical Drawing`;
+                    img.className = 'img-fluid';
+                    drawingImagesContainer.appendChild(img);
+                });
+            } else {
+                drawingImagesContainer.innerHTML = '<p class="text-muted">No technical drawing available</p>';
+            }
+            
+            // Load specifications table
+            const specsTable = document.getElementById('specsTable');
+            specsTable.innerHTML = `
+                <tr>
+                    <th>Model</th>
+                    <td>${screen.model}</td>
+                </tr>
+                <tr>
+                    <th>Category</th>
+                    <td>${screen.category}</td>
+                </tr>
+                <tr>
+                    <th>Dimensions</th>
+                    <td>${screen.dimension}</td>
+                </tr>
+                <tr>
+                    <th>Material</th>
+                    <td>${screen.material}</td>
+                </tr>
+                <tr>
+                    <th>Thickness</th>
+                    <td>${screen.thickness}</td>
+                </tr>
+                <tr>
+                    <th>Hole Size</th>
+                    <td>${screen.holeSize}</td>
+                </tr>
+                <tr>
+                    <th>MOQ</th>
+                    <td>${screen.moq} units</td>
+                </tr>
+            `;
+            
+            // Load description
+            document.getElementById('productDescription').innerHTML = screen.description || 'No detailed description available.';
+            
+            // Set product ID on inquiry button
+            document.getElementById('inquiryBtn').setAttribute('data-product-id', screen.id);
+            
+            // Show the modal
+            const modal = new bootstrap.Modal(document.getElementById('screenModal'));
+            modal.show();
+        }
+
+        // Export to Excel
+        function exportToExcel() {
+            const data = screensData.map(screen => ({
+                'Category': screen.category,
+                'Model': screen.model,
+                'Dimension': screen.dimension,
+                'Material': screen.material,
+                'Thickness': screen.thickness,
+                'Hole Size': screen.holeSize,
+                'MOQ': screen.moq
+            }));
+            
+            const worksheet = XLSX.utils.json_to_sheet(data);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Screens Catalog");
+            XLSX.writeFile(workbook, "Rice_Milling_Screens_Catalog.xlsx");
+        }
+
+        // Export to PDF
+        function exportToPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Title
+            doc.setFontSize(18);
+            doc.text("Rice Milling Screens Catalog", 14, 15);
+            doc.setFontSize(12);
+            doc.text(new Date().toLocaleDateString(), 160, 15);
+            
+            // Table columns
+            const columns = [
+                {title: "Category", dataKey: "category"},
+                {title: "Model", dataKey: "model"},
+                {title: "Dimension", dataKey: "dimension"},
+                {title: "Material", dataKey: "material"},
+                {title: "Thickness", dataKey: "thickness"},
+                {title: "Hole Size", dataKey: "holeSize"},
+                {title: "MOQ", dataKey: "moq"}
+            ];
+            
+            // Table rows
+            const rows = screensData.map(screen => ({
+                category: screen.category,
+                model: screen.model,
+                dimension: screen.dimension,
+                material: screen.material,
+                thickness: screen.thickness,
+                holeSize: screen.holeSize,
+                moq: screen.moq
+            }));
+            
+            // Generate table
+            doc.autoTable({
+                columns: columns,
+                body: rows,
+                startY: 25,
+                styles: { 
+                    fontSize: 8,
+                    cellPadding: 2,
+                    overflow: 'linebreak'
+                },
+                columnStyles: {
+                    category: { cellWidth: 25 },
+                    model: { cellWidth: 25 },
+                    dimension: { cellWidth: 20 },
+                    material: { cellWidth: 20 },
+                    thickness: { cellWidth: 15 },
+                    holeSize: { cellWidth: 15 },
+                    moq: { cellWidth: 10 }
+                },
+                margin: { top: 25 }
+            });
+            
+            doc.save("Rice_Milling_Screens_Catalog.pdf");
+        }
+    </script>
+</body>
+</html>

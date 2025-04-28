@@ -1,0 +1,42 @@
+[
+    {
+        "id": "screen-crc-100",
+        "sku": "SCR-CRC100-2.5",
+        "name": "Perforated Screen for CRC-100",
+        "type": "screen",
+        "machine": "Compact Rice Cleaner CRC-100",
+        "material": "Stainless steel 304",
+        "dimensions": "800×400 mm",
+        "thickness": "1.2 mm",
+        "shape": "Rectangular",
+        "hole_type": "Round",
+        "hole_size": "2.5 mm",
+        "hole_pattern": "Staggered",
+        "open_area": "38%",
+        "weight": "3.2 kg",
+        "application": "Pre-cleaning",
+        "description": "Precision laser-cut screen for CRC-100 cleaner with 2.5mm round holes.",
+        "images": [
+            "screen-crc-100.jpg",
+            "screen-crc-100-detail.jpg"
+        ],
+        "drawing": "screen-crc-100-dwg.pdf"
+    },
+    {
+        "id": "roll-rh-200",
+        "sku": "RLL-RH200-85A",
+        "name": "Rubber Roll for RH-200",
+        "type": "roll",
+        "machine": "Horizontal Rice Husker RH-200",
+        "material": "Synthetic rubber",
+        "dimensions": "200×150 mm",
+        "hardness": "85 Shore A",
+        "life_expectancy": "1000-1500 hours",
+        "description": "High-quality rubber rolls for RH-200 husker with 85 Shore A hardness.",
+        "images": [
+            "roll-rh-200.jpg",
+            "roll-rh-200-side.jpg"
+        ],
+        "drawing": "roll-rh-200-dwg.pdf"
+    }
+]

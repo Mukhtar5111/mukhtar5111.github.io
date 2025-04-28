@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rice Milling Machines | RiceMillPro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">RiceMillPro</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="machines.html">Machines</a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="screens.html">Screens</a>
+                        </li>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="parts.html">Spare Parts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="cross-reference.html">Cross-Reference</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <h1 class="mb-4">Rice Milling Machines</h1>
+        
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <input type="text" id="machineSearch" class="form-control" placeholder="Search machines...">
+            </div>
+            <div class="col-md-3">
+                <select id="machineTypeFilter" class="form-select">
+                    <option value="">All Types</option>
+                    <option value="cleaner">Cleaners</option>
+                    <option value="husker">Huskers</option>
+                    <option value="polisher">Polishers</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select id="machineCapacityFilter" class="form-select">
+                    <option value="">All Capacities</option>
+                    <option value="1-2">1-2 ton/hour</option>
+                    <option value="2-3">2-3 ton/hour</option>
+                    <option value="3-5">3-5 ton/hour</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row" id="machinesContainer">
+            <!-- Machines will be loaded here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Same footer as index.html -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadMachines();
+            
+            // Set up event listeners for filtering
+            document.getElementById('machineSearch').addEventListener('input', filterMachines);
+            document.getElementById('machineTypeFilter').addEventListener('change', filterMachines);
+            document.getElementById('machineCapacityFilter').addEventListener('change', filterMachines);
+            
+            // Check for search query from homepage
+            const searchQuery = localStorage.getItem('searchQuery');
+            if (searchQuery) {
+                document.getElementById('machineSearch').value = searchQuery;
+                localStorage.removeItem('searchQuery');
+                filterMachines();
+            }
+        });
+
+        function loadMachines() {
+            fetch('data/machines.json')
+                .then(response => response.json())
+                .then(data => {
+                    localStorage.setItem('machinesData', JSON.stringify(data));
+                    renderMachines(data);
+                });
+        }
+
+        function renderMachines(machines) {
+            const container = document.getElementById('machinesContainer');
+            container.innerHTML = '';
+            
+            machines.forEach(machine => {
+                const card = `
+                    <div class="col-md-4 mb-4 machine-card" 
+                         data-type="${machine.type}" 
+                         data-capacity="${machine.capacityRange}">
+                        <div class="card h-100">
+                            <img src="images/machines/${machine.image}" class="card-img-top" alt="${machine.name}">
+                            <div class="card-body">
+                                <h3 class="card-title">${machine.name}</h3>
+                                <p class="card-text">${machine.description}</p>
+                                <ul class="list-group list-group-flush mb-3">
+                                    <li class="list-group-item"><strong>Type:</strong> ${machine.type}</li>
+                                    <li class="list-group-item"><strong>Capacity:</strong> ${machine.capacity}</li>
+                                    <li class="list-group-item"><strong>Power:</strong> ${machine.power}</li>
+                                </ul>
+                                <a href="product.html?type=machine&id=${machine.id}" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        }
+
+        function filterMachines() {
+            const searchTerm = document.getElementById('machineSearch').value.toLowerCase();
+            const typeFilter = document.getElementById('machineTypeFilter').value;
+            const capacityFilter = document.getElementById('machineCapacityFilter').value;
+            
+            const machines = JSON.parse(localStorage.getItem('machinesData'));
+            const filtered = machines.filter(machine => {
+                const matchesSearch = machine.name.toLowerCase().includes(searchTerm) || 
+                                     machine.description.toLowerCase().includes(searchTerm);
+                const matchesType = !typeFilter || machine.type === typeFilter;
+                const matchesCapacity = !capacityFilter || machine.capacityRange === capacityFilter;
+                
+                return matchesSearch && matchesType && matchesCapacity;
+            });
+            
+            renderMachines(filtered);
+        }
+    </script>
+</body>
+</html>

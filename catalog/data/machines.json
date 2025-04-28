@@ -1,0 +1,36 @@
+[
+    {
+        "id": "crc-100",
+        "name": "Compact Rice Cleaner CRC-100",
+        "type": "cleaner",
+        "capacity": "2-3 ton/hour",
+        "capacityRange": "2-3",
+        "power": "3 kW",
+        "dimensions": "1200×800×1500 mm",
+        "weight": "350 kg",
+        "description": "Pre-cleaning machine for paddy rice with high efficiency and easy maintenance.",
+        "features": [
+            "High cleaning efficiency",
+            "Easy screen replacement",
+            "Low power consumption"
+        ],
+        "image": "cleaner-crc-100.jpg"
+    },
+    {
+        "id": "rh-200",
+        "name": "Horizontal Rice Husker RH-200",
+        "type": "husker",
+        "capacity": "4-5 ton/hour",
+        "capacityRange": "3-5",
+        "power": "7.5 kW",
+        "dimensions": "1800×1000×2000 mm",
+        "weight": "800 kg",
+        "description": "Rubber roll husker for paddy rice with adjustable roll pressure.",
+        "features": [
+            "Adjustable roll pressure",
+            "Durable rubber rolls",
+            "Precision husking"
+        ],
+        "image": "husker-rh-200.jpg"
+    }
+]

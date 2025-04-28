@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parts Cross-Reference | RiceMillPro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Same navbar as index.html -->
+
+    <div class="container my-5">
+        <h1 class="mb-4">Parts Cross-Reference</h1>
+        
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>By Machine Model</h2>
+                    </div>
+                    <div class="card-body">
+                        <select id="machineSelect" class="form-select mb-3">
+                            <option value="">Select a machine...</option>
+                            <!-- Options will be populated by JavaScript -->
+                        </select>
+                        <div id="machineParts" class="row">
+                            <!-- Parts will be loaded here when a machine is selected -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>By Part Type</h2>
+                    </div>
+                    <div class="card-body">
+                        <select id="partTypeSelect" class="form-select mb-3">
+                            <option value="">Select a part type...</option>
+                            <option value="screen">Screens</option>
+                            <option value="roll">Rolls</option>
+                            <option value="bearing">Bearings</option>
+                        </select>
+                        <div id="typeParts" class="row">
+                            <!-- Parts will be loaded here when a type is selected -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Same footer as index.html -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load machines for the dropdown
+            fetch('data/machines.json')
+                .then(response => response.json())
+                .then(machines => {
+                    const select = document.getElementById('machineSelect');
+                    machines.forEach(machine => {
+                        const option = document.createElement('option');
+                        option.value = machine.id;
+                        option.textContent = machine.name;
+                        select.appendChild(option);
+                    });
+                    
+                    // Set up event listener
+                    select.addEventListener('change', function() {
+                        if (this.value) {
+                            loadPartsForMachine(this.value);
+                        }
+                    });
+                });
+            
+            // Set up part type selector
+            document.getElementById('partTypeSelect').addEventListener('change', function() {
+                if (this.value) {
+                    loadPartsByType(this.value);
+                }
+            });
+        });
+
+        function loadPartsForMachine(machineId) {
+            fetch('data/machines.json')
+                .then(response => response.json())
+                .then(machines => {
+                    const machine = machines.find(m => m.id === machineId);
+                    if (!machine) return;
+                    
+                    fetch('data/parts.json')
+                        .then(response => response.json())
+                        .then(parts => {
+                            const machineParts = parts.filter(part => part.machine === machine.name);
+                            renderParts(machineParts, 'machineParts');
+                        });
+                });
+        }
+
+        function loadPartsByType(type) {
+            fetch('data/parts.json')
+                .then(response => response.json())
+                .then(parts => {
+                    const typeParts = parts.filter(part => part.type === type);
+                    renderParts(typeParts, 'typeParts');
+                });
+        }
+
+        function renderParts(parts, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            if (parts.length === 0) {
+                container.innerHTML = '<p class="text-muted">No parts found for this selection.</p>';
+                return;
+            }
+            
+            parts.forEach(part => {
+                const col = document.createElement('div');
+                col.className = 'col-md-6 mb-3';
+                col.innerHTML = `
+                    <div class="card h-100">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="images/parts/${part.images[0]}" class="img-fluid rounded-start" 
+                                     alt="${part.name}" style="height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">${part.name}</h5>
+                                    <p class="card-text"><small class="text-muted">${part.sku}</small></p>
+                                    <p class="card-text">${part.material}</p>
+                                    <a href="product.html?type=part&id=${part.id}" class="btn btn-sm btn-outline-primary">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(col);
+            });
+        }
+    </script>
+</body>
+</html>
